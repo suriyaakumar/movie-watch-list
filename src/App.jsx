@@ -1,6 +1,17 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { DatabaseProvider } from './db/dbContext.jsx';
+import Home from './components/home.jsx';
+import Login from './components/login.jsx';
+
 function App() {
   return (
-    <h1>Start of Movie Watchlist</h1>
+    <DatabaseProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </Router>
+    </DatabaseProvider>
   )
 }
 

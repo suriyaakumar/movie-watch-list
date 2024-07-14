@@ -1,19 +1,28 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useSwipeable } from 'react-swipeable';
 import { List, X } from '@phosphor-icons/react';
 import NavBar from './navbar';
 
 export default function Layout() {
 	const [menuOpen, setMenuOpen] = useState(false);
 
+	const handlers = useSwipeable({
+		onSwipedLeft: () => setMenuOpen(!menuOpen),
+		onSwipedRight: () => setMenuOpen(!menuOpen),
+		trackMouse: true,
+		preventDefaultTouchmoveEvent: true,
+	});
+
 	return (
 		<div className='flex'>
 			<div
+				{...handlers}
 				className={`fixed inset-y-0 left-0 w-4/12 lg:w-2/12 bg-white transform ${menuOpen ? 'translate-x-0 border-1 shadow-lg' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-300 ease-in-out z-50`}
 			>
 				<div className='space-y-4 p-4'>
 					<div className='flex justify-between'>
-						<h2 className='tracking-tight text-lg text-red-500 lg:text-3xl font-bold'>
+						<h2 className='tracking-tight text-2xl text-red-500 lg:text-3xl font-bold'>
 							Watchlists
 						</h2>
 						<button

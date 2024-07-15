@@ -1,5 +1,4 @@
 import { openDB } from 'idb';
-import { v4 as uuidv4 } from 'uuid';
 
 const initDB = async () => {
 	return openDB('wl-db', 1, {
@@ -35,22 +34,4 @@ export const getWatchlist = async (key) => {
 export const setWatchlist = async (key, value) => {
 	const db = await initDB();
 	return db.put('watchlists', value, key);
-};
-
-export const createWatchlist = async (key) => {
-	const id = uuidv4();
-	const user = await getUser(key);
-	const watchlists = user.watchlists ? user.watchlists.push(id) : [id];
-	const createUser = await setUser(key, {
-		...user,
-		watchlists,
-	});
-	let createWatchlist;
-	if (createUser) {
-		createWatchlist = await setWatchlist(id, {
-			name: 'New Watchlist',
-			movies: [],
-		});
-	}
-	return createWatchlist;
 };

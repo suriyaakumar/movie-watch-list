@@ -1,38 +1,35 @@
 import { useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { House, User, Plus, ListHeart, SignOut } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/userContext';
-import DatabaseContext from '../contexts/dbContext';
+import { setWatchlist } from '../contexts/db';
 import { Command } from 'cmdk';
 
 export default function NavBar({ menuOpen, setMenuOpen }) {
 	const navigate = useNavigate();
-	const user = useContext(UserContext);
-	console.log('Current User', user)
-	const { getUser, setUser, setWatchlist } = useContext(DatabaseContext);
+	const { currentUser, updateUser } = useContext(UserContext);
 
 	const createWatchlist = async (movie) => {
-		const activeUser = await getUser(localStorage.getItem('user'));
 		const id = uuidv4();
-		const name = `New Watchlist ${activeUser.watchlists.length + 1}`;
-		activeUser.watchlists.push({ id, name });
+		const name = `New Watchlist ${currentUser.watchlists.length + 1}`;
 		const watchlist = {
-			user: activeUser.email,
+			user: currentUser.email,
 			name,
 		};
 		if (movie) watchlist.movies = [movie];
-		const saveUser = await setUser(localStorage.getItem('user'), activeUser);
+
+		const updatedUser = { ...currentUser };
+		updatedUser.watchlists.push({ id, name });
+		updateUser(updatedUser);
+
 		setMenuOpen(!menuOpen);
-		console.log(saveUser);
-		const saveWatchlist = await setWatchlist(id, watchlist);
-		console.log(saveWatchlist);
+		await setWatchlist(id, watchlist);
 		navigate(`list/${id}`);
-	}
-	
-	
+	};
+
 	return (
 		<nav className='flex flex-col flex-1 overflow-y-auto pb-4 space-y-3'>
 			<div className='w-11/12 mx-auto space-y-0.5'>
@@ -50,7 +47,11 @@ export default function NavBar({ menuOpen, setMenuOpen }) {
 				</Link>
 				<Link
 					className='p-2 flex items-center space-x-4 text-red-600'
-					to='/home'
+					onClick={() => {
+						localStorage.removeItem('user');
+						updateUser(null);
+						navigate('/');
+					}}
 				>
 					<SignOut className='h-6 w-6' />
 					<span className='text-lg tracking-tight'>Logout</span>
@@ -61,13 +62,13 @@ export default function NavBar({ menuOpen, setMenuOpen }) {
 				<h2 className='tracking-tight text-xl font-semibold text-red-600'>
 					Your Watchlists
 				</h2>
-				{user.watchlists && user.watchlists.length > 0 && (
+				{currentUser.watchlists && currentUser.watchlists.length > 0 && (
 					<button onClick={createWatchlist} className='p-2'>
 						<Plus size={28} />
 					</button>
 				)}
 			</div>
-			{user.watchlists && user.watchlists.length > 0 ? (
+			{currentUser.watchlists && currentUser.watchlists.length > 0 ? (
 				<div className='flex flex-col flex-grow justify-start space-y-2 overflow-y-auto'>
 					<Command>
 						<div className='mx-auto w-11/12'>
@@ -80,7 +81,7 @@ export default function NavBar({ menuOpen, setMenuOpen }) {
 							<Command.Empty className='w-11/12 mx-auto tracking-tight text-center text-md'>
 								No watchlists found.
 							</Command.Empty>
-							{user.watchlists.map((watchlist) => (
+							{currentUser.watchlists.map((watchlist) => (
 								<Command.Item
 									key={watchlist?.id}
 									className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'

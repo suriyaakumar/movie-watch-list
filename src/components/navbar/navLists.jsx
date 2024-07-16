@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 const NavWatchLists = ({ currentUser, createWatchlist }) => (
 	<>
 		<div className='flex items-center justify-between w-11/12 mx-auto'>
-			<h2 className='tracking-tight text-xl font-semibold text-red-600'>
+			<h2 className='tracking-tight text-xl font-bold text-red-600'>
 				Your Watchlists
 			</h2>
 			{currentUser.watchlists && currentUser.watchlists.length > 0 && (
-				<button onClick={createWatchlist} className='p-2'>
+				<button onClick={() => createWatchlist()} className='p-2'>
 					<Plus size={28} />
 				</button>
 			)}
@@ -33,7 +33,7 @@ const NavWatchLists = ({ currentUser, createWatchlist }) => (
 								key={watchlist?.id}
 								className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
 							>
-								<Link to={`list/${watchlist?.id}`}>{watchlist?.name}</Link>
+								<Link to={`watchlist/${watchlist?.id}`}>{watchlist?.name}</Link>
 							</Command.Item>
 						))}
 					</Command.List>
@@ -46,7 +46,7 @@ const NavWatchLists = ({ currentUser, createWatchlist }) => (
 				</h4>
 				<p className='tracking-tight'>Create your first watchlist</p>
 				<button
-					onClick={createWatchlist}
+					onClick={() => createWatchlist()}
 					className='flex justify-center space-x-1.5 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
 				>
 					<ListHeart size={26} />

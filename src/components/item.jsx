@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
 	CalendarBlank,
 	Television,
@@ -8,12 +8,12 @@ import {
 	Plus,
 } from '@phosphor-icons/react';
 import { Command } from 'cmdk';
-
-import { useEffect } from 'react';
+import { useCreateWatchlist } from '../hooks/useCreateWatchList';
 
 function Item({ image, title, year, type, currentUser }) {
 	const [dropDown, setDropDown] = useState(false);
 	const dropdownRef = useRef(null);
+	const createWatchlist = useCreateWatchlist();
 
 	const handleClickOutside = (event) => {
 		if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -33,9 +33,7 @@ function Item({ image, title, year, type, currentUser }) {
 			<img className='w-full h-4/6 object-fill' src={image} />
 			<div className='space-y-3 px-2'>
 				<div className='flex justify-between gap-x-2 items-start'>
-					<div className='font-bold text-sm md:text-base lg:text-md'>
-						{title}
-					</div>
+					<div className='font-bold text-md lg:text-xl'>{title}</div>
 					<div className='relative inline-block text-left' ref={dropdownRef}>
 						<button
 							onClick={() => {
@@ -47,22 +45,28 @@ function Item({ image, title, year, type, currentUser }) {
 						</button>
 						{dropDown && (
 							<div className='origin-top-right absolute right-0 z-50 mt-2 rounded-md shadow-lg bg-white'>
-								<Command label='Command Menu'>
+								<Command>
 									<Command.Input
 										placeholder='Search ...'
 										className='block px-4 py-2 focus:outline-none'
 									/>
-									<button className='flex items-center w-full space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
+									<button onClick={() => createWatchlist({ image, title, year, type })} className='flex items-center w-full space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
 										<Plus size={28} /> <span>New watchlist</span>
 									</button>
-									<Command.List className='overflow-y-auto h-48'>
-										<Command.Empty className='w-11/12 mx-auto p-2 text-center tracking-tight'>No watchlists found.</Command.Empty>
-										{currentUser.watchlists && currentUser.watchlists.length > 0 && (
-											currentUser.watchlists.map((watchlist) => {
-												<Command.Item key={watchlist?.id} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
-												 {watchlist?.name}
-											</Command.Item>
-											}))}
+									<Command.List className='overflow-y-auto'>
+										<Command.Empty className='w-11/12 mx-auto p-2 text-center tracking-tight'>
+											No watchlists found.
+										</Command.Empty>
+										{currentUser.watchlists &&
+											currentUser.watchlists.length > 0 &&
+											currentUser.watchlists.map((watchlist) => (
+												<Command.Item
+													key={watchlist?.id}
+													className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+												>
+													{watchlist?.name}
+												</Command.Item>
+											))}
 									</Command.List>
 								</Command>
 							</div>

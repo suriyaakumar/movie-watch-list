@@ -1,9 +1,8 @@
-// components/NavLinks.js
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { House, User, ListHeart, SignOut } from '@phosphor-icons/react';
 
-const NavLinks = ({ updateUser, navigate }) => (
+const NavLinks = ({ onLogout }) => (
 	<div className='w-11/12 mx-auto space-y-0.5'>
 		<Link className='p-2 flex items-center space-x-4' to='/home'>
 			<House className='h-5 w-5' />
@@ -17,23 +16,18 @@ const NavLinks = ({ updateUser, navigate }) => (
 			<ListHeart className='h-5 w-5' />
 			<span className='text-lg tracking-tight'>Watchlists</span>
 		</Link>
-		<Link
+		<button
 			className='p-2 flex items-center space-x-4 text-red-600'
-			onClick={() => {
-				localStorage.removeItem('user');
-				updateUser(null);
-				navigate('/');
-			}}
+			onClick={onLogout}
 		>
 			<SignOut className='h-6 w-6' />
 			<span className='text-lg tracking-tight'>Logout</span>
-		</Link>
+		</button>
 	</div>
 );
 
 NavLinks.propTypes = {
-    updateUser: PropTypes.func,
-    navigate: PropTypes.func,
+    onLogout: PropTypes.func.isRequired
 };
 
 export default NavLinks;

@@ -1,7 +1,8 @@
 import { useContext, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { UserContext } from '../contexts/userContext';
-import DatabaseContext from '../contexts/dbContext'
+import DatabaseContext from '../contexts/dbContext';
+import { setWatchlist } from '../contexts/db';
 
 export const useCreateWatchlist = () => {
 	const { setUser } = useContext(DatabaseContext);
@@ -12,8 +13,8 @@ export const useCreateWatchlist = () => {
 			const id = uuidv4();
 			const name = `New Watchlist ${currentUser.watchlists.length + 1}`;
 			const watchlist = {
-				user: currentUser.email,
 				name,
+				description: ""
 			};
 			if (movie) watchlist.movies = [movie];
 
@@ -22,6 +23,7 @@ export const useCreateWatchlist = () => {
 			await setUser(currentUser.email, updatedUser);
 			updateUser(updatedUser);
 
+			await setWatchlist(id, watchlist);
 		},
 		[currentUser, setUser, updateUser]
 	);

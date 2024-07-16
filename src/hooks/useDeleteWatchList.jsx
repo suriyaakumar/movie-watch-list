@@ -1,10 +1,9 @@
 import { useContext, useCallback } from 'react';
 import { UserContext } from '../contexts/userContext';
 import DatabaseContext from '../contexts/dbContext';
-import { deleteWatchlist } from '../contexts/db';
 
 export const useDeleteWatchlist = () => {
-	const { setUser } = useContext(DatabaseContext);
+	const { setUser, deleteWatchlist } = useContext(DatabaseContext);
 	const { currentUser, updateUser } = useContext(UserContext);
 
 	const removeWatchlist = useCallback(
@@ -15,10 +14,10 @@ export const useDeleteWatchlist = () => {
 			);
 			await setUser(currentUser.email, updatedUser);
 			updateUser(updatedUser);
-			
-            deleteWatchlist(id);
+
+			deleteWatchlist(id);
 		},
-		[currentUser, setUser, updateUser]
+		[currentUser, setUser, updateUser, deleteWatchlist]
 	);
 
 	return removeWatchlist;

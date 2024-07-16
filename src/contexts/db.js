@@ -35,3 +35,8 @@ export const setWatchlist = async (key, value) => {
 	const db = await initDB();
 	return db.put('watchlists', value, key);
 };
+
+export const deleteWatchlist = async (key) => {
+	const db = await initDB();
+	return db.delete('watchlists', key);
+};

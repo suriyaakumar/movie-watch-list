@@ -2,15 +2,14 @@ import PropTypes from 'prop-types';
 import { useState, useRef, useEffect } from 'react';
 import {
 	CalendarBlank,
-	Television,
-	FilmReel,
 	Bookmark,
 	Plus,
+	Star
 } from '@phosphor-icons/react';
 import { Command } from 'cmdk';
 import { useCreateWatchlist } from '../hooks/useCreateWatchList';
 
-function Item({ image, title, year, type, currentUser }) {
+function Item({ movie, currentUser }) {
 	const [dropDown, setDropDown] = useState(false);
 	const dropdownRef = useRef(null);
 	const createWatchlist = useCreateWatchlist();
@@ -30,10 +29,10 @@ function Item({ image, title, year, type, currentUser }) {
 
 	return (
 		<div className='rounded h-full space-y-3 overflow-hidden shadow-md hover:shadow-lg hover:border-1 hover:transition-shadow hover:ease-in-out'>
-			<img className='w-full h-4/6 object-fill' src={image} />
+			<img className='w-full h-4/6 object-fill' src={movie.Poster} />
 			<div className='space-y-3 px-2'>
 				<div className='flex justify-between gap-x-2 items-start'>
-					<div className='font-bold text-md lg:text-xl'>{title}</div>
+					<div className='font-bold text-md lg:text-xl'>{movie?.Title}</div>
 					<div className='relative inline-block text-left' ref={dropdownRef}>
 						<button
 							onClick={() => {
@@ -50,7 +49,7 @@ function Item({ image, title, year, type, currentUser }) {
 										placeholder='Search ...'
 										className='block px-4 py-2 focus:outline-none'
 									/>
-									<button onClick={() => createWatchlist({ image, title, year, type })} className='flex items-center w-full space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
+									<button onClick={() => createWatchlist(movie)} className='flex items-center w-full space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
 										<Plus size={28} /> <span>New watchlist</span>
 									</button>
 									<Command.List className='overflow-y-auto'>
@@ -76,29 +75,21 @@ function Item({ image, title, year, type, currentUser }) {
 				<div className='flex items-center space-x-3'>
 					<p className='flex items-center space-x-1.5'>
 						<CalendarBlank className='h-6 w-6' />
-						<span className='text-base md:text-base lg:text-md'>{year}</span>
+						<span className='text-base md:text-base lg:text-md'>{movie?.Year}</span>
 					</p>
 					<p className='flex items-center space-x-1.5'>
-						{type ? (
-							<Television className='h-6 w-6' />
-						) : (
-							<FilmReel className='h-6 w-6' />
-						)}
-						<span className='capitalize text-sm md:text-base lg:text-md'>
-							{type}
-						</span>
+						<Star className='h-6 w-6' />
+						<span className='text-base md:text-base lg:text-md'>{movie?.Metascore}</span>
 					</p>
 				</div>
+				<p className=''>{movie?.Plot}</p>
 			</div>
 		</div>
 	);
 }
 
 Item.propTypes = {
-	image: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
-	year: PropTypes.string.isRequired,
-	type: PropTypes.string.isRequired,
+	movie: PropTypes.object.isRequired,
 	currentUser: PropTypes.object.isRequired,
 };
 

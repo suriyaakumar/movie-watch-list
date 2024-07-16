@@ -8,9 +8,11 @@ export const useAddMovie = () => {
 		async (id, movie) => {
 			const watchlist = await getWatchlist(id);
 			const newMovie = { ...movie, watched: false };
-			watchlist.movies && watchlist.movies.length > 0
-				? watchlist.movies.push(newMovie)
-				: (watchlist.movies = [newMovie]);
+			if (
+				watchlist.movies &&
+				!watchlist.movies.some((movie) => movie.imdbID === newMovie.imdbID) // check if the movie is already in the watchlist
+			)
+			watchlist.movies.push(newMovie);
 			await setWatchlist(id, watchlist);
 		},
 		[setWatchlist, getWatchlist]

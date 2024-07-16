@@ -8,11 +8,13 @@ import {
 } from '@phosphor-icons/react';
 import { Command } from 'cmdk';
 import { useCreateWatchlist } from '../hooks/useCreateWatchList';
+import { useAddMovie } from '../hooks/useAddMovie';
 
 function Item({ movie, currentUser }) {
 	const [dropDown, setDropDown] = useState(false);
 	const dropdownRef = useRef(null);
 	const createWatchlist = useCreateWatchlist();
+	const addMovie = useAddMovie();
 
 	const handleClickOutside = (event) => {
 		if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -52,7 +54,7 @@ function Item({ movie, currentUser }) {
 									<button onClick={() => createWatchlist(movie)} className='flex items-center w-full space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
 										<Plus size={28} /> <span>New watchlist</span>
 									</button>
-									<Command.List className='overflow-y-auto'>
+									<Command.List className='overflow-y-auto h-48'>
 										<Command.Empty className='w-11/12 mx-auto p-2 text-center tracking-tight'>
 											No watchlists found.
 										</Command.Empty>
@@ -60,6 +62,7 @@ function Item({ movie, currentUser }) {
 											currentUser.watchlists.length > 0 &&
 											currentUser.watchlists.map((watchlist) => (
 												<Command.Item
+													onSelect={() => addMovie(watchlist?.id, movie)}
 													key={watchlist?.id}
 													className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
 												>

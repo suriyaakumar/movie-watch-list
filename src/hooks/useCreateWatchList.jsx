@@ -14,9 +14,12 @@ export const useCreateWatchlist = () => {
 			const name = `New Watchlist ${currentUser.watchlists.length + 1}`;
 			const watchlist = {
 				name,
-				description: ""
+				description: ''
 			};
-			if (movie) watchlist.movies = [movie];
+			if (movie) {
+				const newMovie = { ...movie, watched: false };
+				watchlist.movies = [newMovie];
+			}
 
 			const updatedUser = { ...currentUser };
 			updatedUser.watchlists.push({ id, name });

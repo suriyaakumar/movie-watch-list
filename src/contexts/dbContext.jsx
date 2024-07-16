@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import { setUser, getUser, deleteUser } from './db';
+import { setUser, getUser, deleteUser, getWatchlist, setWatchlist } from './db';
 import PropTypes from 'prop-types';
 
 const DatabaseContext = createContext();
@@ -16,7 +16,7 @@ export const DatabaseProvider = ({ children }) => {
   }, []);
 
   return (
-    <DatabaseContext.Provider value={{ setUser, getUser, deleteUser, dbInitialized }}>
+    <DatabaseContext.Provider value={{ setUser, getUser, deleteUser, getWatchlist, setWatchlist, dbInitialized }}>
       {children}
     </DatabaseContext.Provider>
   );

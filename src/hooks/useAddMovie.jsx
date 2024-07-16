@@ -2,12 +2,15 @@ import { useContext, useCallback } from 'react';
 import DatabaseContext from '../contexts/dbContext';
 
 export const useAddMovie = () => {
-    const { getWatchlist, setWatchlist } = useContext(DatabaseContext);
-    
+	const { getWatchlist, setWatchlist } = useContext(DatabaseContext);
+
 	const addMovie = useCallback(
 		async (id, movie) => {
 			const watchlist = await getWatchlist(id);
-            watchlist.movies.push(movie);
+			const newMovie = { ...movie, watched: false };
+			watchlist.movies && watchlist.movies.length > 0
+				? watchlist.movies.push(newMovie)
+				: (watchlist.movies = [newMovie]);
 			await setWatchlist(id, watchlist);
 		},
 		[setWatchlist, getWatchlist]

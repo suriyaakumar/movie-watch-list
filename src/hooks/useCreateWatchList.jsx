@@ -1,8 +1,10 @@
 import { useContext, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { UserContext } from '../contexts/userContext';
+import DatabaseContext from '../contexts/dbContext'
 
 export const useCreateWatchlist = () => {
+	const { setUser } = useContext(DatabaseContext);
 	const { currentUser, updateUser } = useContext(UserContext);
 
 	const createWatchlist = useCallback(
@@ -17,10 +19,11 @@ export const useCreateWatchlist = () => {
 
 			const updatedUser = { ...currentUser };
 			updatedUser.watchlists.push({ id, name });
+			await setUser(currentUser.email, updatedUser);
 			updateUser(updatedUser);
 
 		},
-		[currentUser, updateUser]
+		[currentUser, setUser, updateUser]
 	);
 
 	return createWatchlist;

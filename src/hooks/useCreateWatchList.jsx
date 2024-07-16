@@ -1,11 +1,8 @@
 import { useContext, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/userContext';
-import { setWatchlist } from '../contexts/db';
 
-export const useCreateWatchlist = (setMenuOpen, menuOpen) => {
-	const navigate = useNavigate();
+export const useCreateWatchlist = () => {
 	const { currentUser, updateUser } = useContext(UserContext);
 
 	const createWatchlist = useCallback(
@@ -22,11 +19,8 @@ export const useCreateWatchlist = (setMenuOpen, menuOpen) => {
 			updatedUser.watchlists.push({ id, name });
 			updateUser(updatedUser);
 
-			setMenuOpen(!menuOpen);
-			await setWatchlist(id, watchlist);
-			navigate(`list/${id}`);
 		},
-		[currentUser, menuOpen, navigate, setMenuOpen, updateUser]
+		[currentUser, updateUser]
 	);
 
 	return createWatchlist;

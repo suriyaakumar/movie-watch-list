@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import DatabaseContext from '../contexts/dbContext';
 import { useNavigate } from 'react-router-dom';
 import { SignIn } from '@phosphor-icons/react';
+import { toast } from 'react-toastify';
 
 export default function Login() {
 	const [email, setEmail] = useState('');
@@ -9,29 +10,35 @@ export default function Login() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		document.title = 'Watchlists | Home';
+		document.title = 'Watchlists | Login';
 	}, []);
 
-	const login = async (e) => {
-		e.preventDefault();
-		localStorage.setItem('user', e.target.email.value);
-		const user = await getUser(email);
-		if (!user)
-			await setUser(email, {
-				email,
-				watchlists: [],
-			});
-		navigate('home');
+	const handleLogin = async (e) => {
+		try {
+			e.preventDefault();
+			localStorage.setItem('user', e.target.email.value);
+			const user = await getUser(email);
+			if (!user)
+				await setUser(email, {
+					name: '',
+					email,
+					image: '',
+					watchlists: [],
+				});
+			navigate('home');
+		} catch (error) {
+			toast.error(error.message);
+		}
 	};
 
 	return (
-		<div className='container min-h-screen mx-auto'>
+		<div className='container min-h-screen m-auto'>
 			<div className='flex flex-col w-11/12 lg:w-4/12 mx-auto space-y-5 items-center justify-center'>
 				<h1 className='font-extrabold tracking-tight text-5xl text-red-600'>
 					Watchlists
 				</h1>
 				<form
-					onSubmit={login}
+					onSubmit={handleLogin}
 					className='w-full flex flex-col space-y-3 items-center justify-center'
 				>
 					<label className='w-full' htmlFor='email'>

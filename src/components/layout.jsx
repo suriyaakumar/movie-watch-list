@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import { List, X } from '@phosphor-icons/react';
+import NavBar from './navbar/navbar';
 import { UserProvider } from '../contexts/userContext';
-import NavBar from './navbar';
 
 export default function Layout() {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -23,7 +23,7 @@ export default function Layout() {
 				>
 					<div className='h-full flex flex-col space-y-2'>
 						<div className='flex justify-between p-4'>
-							<h1 className='tracking-tight text-center text-2xl text-red-500 lg:text-3xl font-bold'>
+							<h1 className='tracking-tight text-center text-2xl text-red-500 lg:text-3xl font-black'>
 								Watchlists
 							</h1>
 							<button

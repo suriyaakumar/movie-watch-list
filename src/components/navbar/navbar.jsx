@@ -8,7 +8,8 @@ import NavWatchLists from './navLists';
 export default function NavBar() {
 	const { currentUser, updateUser } = useContext(UserContext);
 	const createWatchlist = useCreateWatchlist();
-	const navigate = useNavigate(); 
+	const navigate = useNavigate();
+	
 
 	const handleLogout = () => {
 		localStorage.removeItem('user');
@@ -18,7 +19,7 @@ export default function NavBar() {
 
 	return (
 		<nav className='flex flex-col flex-1 overflow-y-auto pb-4 space-y-3'>
-			<NavLinks updateUser={updateUser} onLogout={handleLogout} />
+			<NavLinks currentUserName={currentUser.name || currentUser.email} currentUserImage={currentUser.image} onLogout={handleLogout} />
 			<hr className='border-t-1 w-11/12 mx-auto border-gray-400' />
 			<NavWatchLists
 				currentUser={currentUser}

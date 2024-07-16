@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const NavWatchLists = ({ currentUser, createWatchlist }) => (
 	<>
 		<div className='flex items-center justify-between w-11/12 mx-auto'>
-			<h2 className='tracking-tight text-xl font-bold text-red-600'>
+			<h2 className='tracking-tight text-xl font-semibold text-red-600'>
 				Your Watchlists
 			</h2>
 			{currentUser.watchlists && currentUser.watchlists.length > 0 && (
@@ -31,7 +31,7 @@ const NavWatchLists = ({ currentUser, createWatchlist }) => (
 						{currentUser.watchlists.map((watchlist) => (
 							<Command.Item
 								key={watchlist?.id}
-								className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+								className='block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100'
 							>
 								<Link to={`watchlist/${watchlist?.id}`}>{watchlist?.name}</Link>
 							</Command.Item>

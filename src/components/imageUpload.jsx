@@ -1,15 +1,16 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
-export default function ImageFileUpload() {
-	const [imagePreview, setImagePreview] = useState(null);
+export default function ImageFileUpload({ value, onImageUpload }) {
+	const [imagePreview, setImagePreview] = useState(value);
 
 	const handleFileChange = (event) => {
         const file = event.target.files[0];
-        console.log('Inside profile', file, typeof file)
 		if (file) {
 			const reader = new FileReader();
 			reader.onloadend = () => {
-				setImagePreview(reader.result);
+                setImagePreview(reader.result);
+                onImageUpload(file)
 			};
 			reader.readAsDataURL(file);
 		}
@@ -43,4 +44,9 @@ export default function ImageFileUpload() {
 			</label>
 		</>
 	);
+}
+
+ImageFileUpload.propTypes = {
+    value: PropTypes.string.isRequired,
+    onImageUpload: PropTypes.func.isRequired
 }

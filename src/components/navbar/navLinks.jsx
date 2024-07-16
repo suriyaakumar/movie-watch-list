@@ -39,8 +39,8 @@ const NavLinks = ({ currentUserName, currentUserImage, onLogout }) => (
 );
 
 NavLinks.propTypes = {
-	currentUserName: PropTypes.string.isRequired,
-	currentUserImage: PropTypes.string.isRequired,
+	currentUserName: PropTypes.string,
+	currentUserImage: PropTypes.string,
     onLogout: PropTypes.func.isRequired
 };
 

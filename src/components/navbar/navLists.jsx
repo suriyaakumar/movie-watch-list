@@ -33,7 +33,12 @@ const NavWatchLists = ({ currentUser, createWatchlist }) => (
 								key={watchlist?.id}
 								className='block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100'
 							>
-								<Link to={`watchlist/${watchlist?.id}`}>{watchlist?.name}</Link>
+								<Link
+									to={`watchlist/${watchlist?.id}`}
+									state={{ id: watchlist?.id }}
+								>
+									{watchlist?.name}
+								</Link>
 							</Command.Item>
 						))}
 					</Command.List>
@@ -58,8 +63,8 @@ const NavWatchLists = ({ currentUser, createWatchlist }) => (
 );
 
 NavWatchLists.propTypes = {
-    currentUser: PropTypes.object,
-    createWatchlist: PropTypes.func,
+	currentUser: PropTypes.object,
+	createWatchlist: PropTypes.func,
 };
 
 export default NavWatchLists;

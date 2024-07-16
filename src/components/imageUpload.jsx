@@ -1,16 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 export default function ImageFileUpload({ value, onImageUpload }) {
-	const [imagePreview, setImagePreview] = useState(value);
+	const [imagePreview, setImagePreview] = useState('');
+
+    useEffect(() => {
+        if (value) {
+            setImagePreview(value);
+        }
+    }, [value])
 
 	const handleFileChange = (event) => {
         const file = event.target.files[0];
 		if (file) {
 			const reader = new FileReader();
-			reader.onloadend = () => {
+            reader.onloadend = () => {
                 setImagePreview(reader.result);
-                onImageUpload(file)
+                onImageUpload(reader.result)
 			};
 			reader.readAsDataURL(file);
 		}

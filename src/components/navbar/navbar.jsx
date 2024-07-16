@@ -1,14 +1,13 @@
 import { useContext } from 'react';
-import PropTypes from 'prop-types';
 import NavLinks from './navLinks';
 import { UserContext } from '../../contexts/userContext';
 import { useNavigate } from 'react-router-dom';
 import { useCreateWatchlist } from '../../hooks/useCreateWatchList';
 import NavWatchLists from './navLists';
 
-export default function NavBar({ menuOpen, setMenuOpen }) {
+export default function NavBar() {
 	const { currentUser, updateUser } = useContext(UserContext);
-	const createWatchlist = useCreateWatchlist(setMenuOpen, menuOpen);
+	const createWatchlist = useCreateWatchlist();
 	const navigate = useNavigate(); 
 
 	const handleLogout = () => {
@@ -28,8 +27,3 @@ export default function NavBar({ menuOpen, setMenuOpen }) {
 		</nav>
 	);
 }
-
-NavBar.propTypes = {
-	menuOpen: PropTypes.bool.isRequired,
-	setMenuOpen: PropTypes.func.isRequired,
-};

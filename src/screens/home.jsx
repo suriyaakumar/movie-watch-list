@@ -1,9 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
-import Item from '../components/item';
+import GridItem from '../components/gridItem';
 import { UserContext } from '../contexts/userContext';
 import { toast } from 'react-toastify';
 import Search from '../components/search';
 import { CaretRight, CaretLeft } from '@phosphor-icons/react';
+import { useAddMovie } from '../hooks/useAddMovie';
+import WatchListSearch from '../components/watchListSearch';
 
 export default function Home() {
 	useEffect(() => {
@@ -14,6 +16,7 @@ export default function Home() {
 	const [currentQuery, setCurrentQuery] = useState('');
 	const [totalResults, setTotalResults] = useState(0);
 	const { currentUser } = useContext(UserContext);
+	const addMovie = useAddMovie();
 
 	const search = async (query, page = 1) => {
 		try {
@@ -58,21 +61,21 @@ export default function Home() {
 	};
 
 	return (
-		<div className='mx-auto'>
-			<div className='flex flex-col p-5 space-y-5 justify-center'>
-				<h1 className='text-3xl font-black'>Search</h1>
-				<Search onSearch={handleSearch} />
-				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-2'>
-					{movies.length > 0 &&
-						movies.map((movie) => (
-							<Item
-								key={movie.imdbID}
-								movie={movie}
-								currentUser={currentUser}
-							/>
-						))}
-				</div>
-				{totalResults > 10 && <div className='flex justify-between'>
+		<div className='mx-auto space-y-3'>
+			<h1 className='text-3xl font-black text-center md:text-left'>Search</h1>
+			<Search onSearch={handleSearch} />
+			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+				{movies.length > 0 &&
+					movies.map((movie) => (
+						<GridItem
+							key={movie.imdbID}
+							movie={movie}
+							Actions={() => <WatchListSearch currentUser={currentUser} movie={movie} onSelect={addMovie} />}
+						/>
+					))}
+			</div>
+			 {totalResults > 10 && (
+				<div className='flex justify-between'>
 					<button
 						className='bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
 						onClick={handlePreviousPage}
@@ -87,8 +90,8 @@ export default function Home() {
 					>
 						<CaretRight />
 					</button>
-				</div>}
-			</div>
+				</div>
+			)} 
 		</div>
 	);
 }

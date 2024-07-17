@@ -2,12 +2,15 @@ import { Command } from 'cmdk';
 import { Plus } from '@phosphor-icons/react';
 import { useCreateWatchlist } from '../hooks/useCreateWatchList';
 import PropTypes from 'prop-types';
-import { useAddMovie } from '../hooks/useAddMovie';
 
-export default function WatchListSearch({ currentUser, movie }) {
+export default function WatchListSearch({ currentUser, movie, onSelect }) {
 	const createWatchlist = useCreateWatchlist();
-    const addMovie = useAddMovie();
-    
+
+	const handleSelect = (...args) => {
+		if (onSelect) {
+			onSelect(...args);
+		}
+	};
 
 	return (
 		<Command>
@@ -29,7 +32,7 @@ export default function WatchListSearch({ currentUser, movie }) {
 					currentUser.watchlists.length > 0 &&
 					currentUser.watchlists.map((watchlist) => (
 						<Command.Item
-							onSelect={() => addMovie(watchlist?.id, movie)}
+							onSelect={() => handleSelect(watchlist?.id, movie)}
 							key={watchlist?.id}
 							className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
 						>
@@ -44,4 +47,5 @@ export default function WatchListSearch({ currentUser, movie }) {
 WatchListSearch.propTypes = {
 	currentUser: PropTypes.object,
 	movie: PropTypes.object,
+	onSelect: PropTypes.func,
 };

@@ -1,19 +1,9 @@
 import PropTypes from 'prop-types';
-import {
-	CalendarBlank,
-	Bookmark,
-	Plus,
-	Star,
-	Trash,
-} from '@phosphor-icons/react';
-import { Command } from 'cmdk';
-import { useCreateWatchlist } from '../hooks/useCreateWatchList';
-import { useAddMovie } from '../hooks/useAddMovie';
+import { CalendarBlank, Bookmark, Star, Trash } from '@phosphor-icons/react';
 import * as Popover from '@radix-ui/react-popover';
+import WatchListSearch from './watchListSearch';
 
 function GridItem({ movie, currentUser, deleteMovie }) {
-	const createWatchlist = useCreateWatchlist();
-	const addMovie = useAddMovie();
 
 	return (
 		<div className='rounded h-5/6 overflow-hidden space-y-1.5 shadow-md hover:shadow-lg hover:border-1 hover:transition-shadow hover:ease-in-out'>
@@ -28,34 +18,7 @@ function GridItem({ movie, currentUser, deleteMovie }) {
 							</Popover.Trigger>
 							<Popover.Portal>
 								<Popover.Content className='bg-white rounded shadow-2xl border-2 mt-2'>
-									<Command>
-										<Command.Input
-											placeholder='Search ...'
-											className='block px-4 py-2 focus:outline-none'
-										/>
-										<button
-											onClick={() => createWatchlist(movie)}
-											className='flex items-center w-full space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-										>
-											<Plus size={28} /> <span>New watchlist</span>
-										</button>
-										<Command.List className='overflow-y-auto h-28 xl:h-40'>
-											<Command.Empty className='w-11/12 mx-auto p-2 text-center tracking-tight'>
-												No watchlists found.
-											</Command.Empty>
-											{currentUser.watchlists &&
-												currentUser.watchlists.length > 0 &&
-												currentUser.watchlists.map((watchlist) => (
-													<Command.Item
-														onSelect={() => addMovie(watchlist?.id, movie)}
-														key={watchlist?.id}
-														className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-													>
-														{watchlist?.name}
-													</Command.Item>
-												))}
-										</Command.List>
-									</Command>
+									<WatchListSearch currentUser={currentUser} movie={movie} />
 								</Popover.Content>
 							</Popover.Portal>
 						</Popover.Root>

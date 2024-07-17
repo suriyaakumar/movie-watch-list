@@ -8,11 +8,12 @@ const NavLinks = ({ currentUserName, currentUserImage, onLogout }) => (
 			to='/profile'
 			className='w-full flex items-center space-x-3 py-3 px-4 hover:bg-red-600 hover:text-white'
 		>
-			<img
-				src={currentUserImage}
-				className='h-8 w-8 sm:h-7 sm:w-7 md:h-10 md:w-10 rounded-full outline-none'
-			/>
-			<span className='text-base font-medium'>{currentUserName || 'GUEST'}</span>
+			<div className='h-8 w-8 sm:h-7 sm:w-7 md:h-10 md:w-10 bg-gray-200 rounded-full overflow-hidden'>
+				{currentUserImage && <img className='h-full w-full object-cover' src={currentUserImage} />}
+			</div>
+			<span className='text-base font-medium'>
+				{currentUserName || 'GUEST'}
+			</span>
 		</Link>
 		<Link
 			className='py-3 px-4 flex items-center space-x-2 hover:bg-red-600 hover:text-white'

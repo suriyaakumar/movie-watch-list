@@ -24,6 +24,7 @@ export default function NavBar() {
 			<NavWatchLists
 				currentUser={currentUser}
 				createWatchlist={createWatchlist}
+				navigate={navigate}
 			/>
 		</nav>
 	);

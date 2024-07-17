@@ -3,37 +3,37 @@ import PropTypes from 'prop-types';
 import { House, ListHeart, SignOut } from '@phosphor-icons/react';
 
 const NavLinks = ({ currentUserName, currentUserImage, onLogout }) => (
-	<div className='w-11/12 mx-auto space-y-0.5'>
+	<div className='w-full space-y-0.5'>
 		<Link
 			to='/profile'
-			className='w-full flex items-center space-x-5 sm:space-x-1 md:space-x-5 rounded py-4 px-2 hover:bg-red-600 hover:text-white hover:rounded'
+			className='w-full flex items-center space-x-3 py-3 px-4 hover:bg-red-600 hover:text-white'
 		>
 			<img
 				src={currentUserImage}
-				className='h-8 w-8 sm:h-6 sm:w-6 md:h-8 md:w-8 rounded-full outline-none'
+				className='h-8 w-8 sm:h-7 sm:w-7 md:h-10 md:w-10 rounded-full outline-none'
 			/>
-			<span className='text-sm'>{currentUserName || 'GUEST'}</span>
+			<span className='text-base font-medium'>{currentUserName || 'GUEST'}</span>
 		</Link>
 		<Link
-			className='p-2 flex items-center space-x-4 hover:bg-red-600 hover:text-white hover:rounded'
+			className='py-3 px-4 flex items-center space-x-2 hover:bg-red-600 hover:text-white'
 			to='/home'
 		>
 			<House className='h-5 w-5' />
-			<span className='text-lg tracking-tight'>Home</span>
+			<span className='text-sm tracking-tight'>Home</span>
 		</Link>
 		<Link
-			className='p-2 flex items-center space-x-4 hover:bg-red-600 hover:text-white hover:rounded'
+			className='py-3 px-4 flex items-center space-x-2 hover:bg-red-600 hover:text-white'
 			to='/watchlists'
 		>
 			<ListHeart className='h-5 w-5' />
-			<span className='text-lg tracking-tight'>Watchlists</span>
+			<span className='text-sm tracking-tight'>Watchlists</span>
 		</Link>
 		<button
-			className='p-2 w-full flex items-center space-x-4 text-red-600 hover:bg-red-600 hover:text-white hover:rounded'
+			className='py-3 px-4 w-full flex items-center space-x-2 text-red-600 hover:bg-red-600 hover:text-white'
 			onClick={onLogout}
 		>
-			<SignOut className='h-6 w-6' />
-			<span className='text-lg tracking-tight'>Logout</span>
+			<SignOut className='h-5 w-5' />
+			<span className='text-sm tracking-tight'>Logout</span>
 		</button>
 	</div>
 );
@@ -41,7 +41,7 @@ const NavLinks = ({ currentUserName, currentUserImage, onLogout }) => (
 NavLinks.propTypes = {
 	currentUserName: PropTypes.string,
 	currentUserImage: PropTypes.string,
-    onLogout: PropTypes.func.isRequired
+	onLogout: PropTypes.func.isRequired,
 };
 
 export default NavLinks;

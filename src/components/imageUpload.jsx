@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 export default function ImageFileUpload({ value, onImageUpload }) {
 	const [imagePreview, setImagePreview] = useState('');
 
-    useEffect(() => {
-        if (value) {
-            setImagePreview(value);
-        }
-    }, [value])
+	useEffect(() => {
+		if (value) {
+			setImagePreview(value);
+		}
+	}, [value]);
 
 	const handleFileChange = (event) => {
-        const file = event.target.files[0];
+		const file = event.target.files[0];
 		if (file) {
 			const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-                onImageUpload(reader.result)
+			reader.onloadend = () => {
+				setImagePreview(reader.result);
+				onImageUpload(reader.result);
 			};
 			reader.readAsDataURL(file);
 		}
@@ -24,15 +24,15 @@ export default function ImageFileUpload({ value, onImageUpload }) {
 
 	return (
 		<>
-			{imagePreview && (
-				<div className='mx-auto rounded-full overflow-hidden bg-gray-200 w-48 h-48'>
+			<div className='mx-auto rounded-full overflow-hidden bg-gray-200 w-48 h-48'>
+				{imagePreview && (
 					<img
 						src={imagePreview}
 						alt='Uploaded'
 						className='w-full h-full object-cover'
 					/>
-				</div>
-			)}
+				)}
+			</div>
 			<label
 				htmlFor='fileInput'
 				className='cursor-pointer px-4 py-2 mx-auto bg-red-600 text-white hover:bg-red-700 rounded'
@@ -53,6 +53,6 @@ export default function ImageFileUpload({ value, onImageUpload }) {
 }
 
 ImageFileUpload.propTypes = {
-    value: PropTypes.string.isRequired,
-    onImageUpload: PropTypes.func.isRequired
-}
+	value: PropTypes.string,
+	onImageUpload: PropTypes.func.isRequired,
+};

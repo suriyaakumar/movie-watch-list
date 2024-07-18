@@ -21,14 +21,14 @@ export default function Home() {
 	const search = async (query, page = 1) => {
 		try {
 			let results = await fetch(
-				`https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_KEY}&s=${query}&type=movie&page=${page}`
+				`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_KEY}&s=${query}&type=movie&page=${page}`
 			);
 			results = await results.json();
 
 			if (results.Search) {
 				const promises = results.Search.map(async (movie) => {
 					const result = await fetch(
-						`https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_KEY}&t=${movie.Title}&plot=short`
+						`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_KEY}&t=${movie.Title}&plot=short`
 					);
 					return result.json();
 				});

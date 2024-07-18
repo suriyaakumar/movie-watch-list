@@ -70,7 +70,7 @@ export default function Home() {
 	 */
 	const handleNextPage = () => {
 		if (currentPage * 10 < totalResults) {
-			search(currentQuery, currentPage + 1);
+			setCurrentPage(currentPage + 1);
 		}
 	};
 
@@ -82,7 +82,7 @@ export default function Home() {
 	 */
 	const handlePreviousPage = () => {
 		if (currentPage > 1) {
-			search(currentQuery, currentPage - 1);
+			setCurrentPage(currentPage - 1);
 		}
 	};
 
@@ -92,7 +92,7 @@ export default function Home() {
 			<Search onSearch={handleSearch} />
 			<Suspense
 				fallback={
-					<div className='h-screen bg-red-600 text-center flex items-center'>
+					<div className='h-screen text-center flex items-center'>
 						Loading...
 					</div>
 				}

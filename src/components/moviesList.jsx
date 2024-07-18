@@ -91,7 +91,7 @@ MoviesList.propTypes = {
 	currentQuery: PropTypes.string,
 	setTotalResults: PropTypes.func,
 	onSearch: PropTypes.func,
-	totalResults: PropTypes.number,
+	totalResults: PropTypes.string,
 	currentUser: PropTypes.object,
 	addMovie: PropTypes.func,
 	handleNextPage: PropTypes.func,

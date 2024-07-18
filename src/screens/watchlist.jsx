@@ -6,9 +6,10 @@ import { useRemoveMovie } from '../hooks/useRemoveMovie';
 import GridItem from '../components/gridItem';
 import EditableInput from '../components/editableInput';
 import { toast } from 'react-toastify';
-import { Check, FilmSlate, Trash } from '@phosphor-icons/react';
+import { Check, FilmSlate, Trash} from '@phosphor-icons/react';
 import WatchListSearch from '../components/watchListSearch';
 import { useAddMovie } from '../hooks/useAddMovie';
+import { setWatchlist as updateDBWatchlist } from '../contexts/db';
 
 export default function Watchlist() {
 	const location = useLocation();
@@ -32,16 +33,32 @@ export default function Watchlist() {
 
 	const deleteMovie = async (movie) => {
 		try {
-			const newMovies = watchlist.movies.filter((m) => m.Title !== movie.Title || m.imdbID !== movie.imdbID);
+			const newMovies = watchlist.movies.filter(
+				(m) => m.Title !== movie.Title || m.imdbID !== movie.imdbID
+			);
 			setWatchlist({
 				...watchlist,
 				movies: newMovies,
 			});
 			await removeMovie(id, movie);
-			toast.success('Movie deleted successfully');
 		} catch (error) {
 			toast.error(error.message);
-			console.error(error);
+		}
+	};
+
+	const markMovie = async (movie) => {
+		try {
+			const index = watchlist.movies.findIndex(
+				(m) => m.imdbID === movie.imdbID
+			);
+			watchlist.movies[index].watched = !watchlist.movies[index].watched;
+			setWatchlist({
+				...watchlist,
+			});
+			updateDBWatchlist(id, { ...watchlist });
+			console.log(watchlist.movies[index].watched);
+		} catch (error) {
+			toast.error(error.message);
 		}
 	};
 
@@ -66,8 +83,13 @@ export default function Watchlist() {
 							movie={movie}
 							Actions={() => (
 								<div className='flex items-center space-x-1'>
-									<button className='inline-flex rounded p-1.5 bg-red-600 hover:bg-red-600 text-white font-bold'>
-										<Check className='h-5 w-5' />{' '}
+									<button
+										onClick={() => markMovie(movie)}
+										className={`inline-flex rounded p-1.5 ${movie.watched ? 'bg-green-400 hover:bg-green-600' : 'bg-red-400 hover:bg-red-600'}  text-white font-bold`}
+									>
+										
+											<Check className='h-5 w-5' />
+										 {' '}
 									</button>
 									<WatchListSearch
 										currentUser={currentUser}
@@ -89,7 +111,10 @@ export default function Watchlist() {
 				<div className='w-11/12 md:w-2/3 border border-gray-600 rounded-lg flex flex-col space-y-2 items-center p-2 mx-auto'>
 					<FilmSlate className='w-36 h-36' />
 					<h1 className='font-black text-3xl'>No Movies</h1>
-					<button onClick={() => navigate('/home')} className='p-2 bg-red-600 text-white rounded-lg hover:bg-red-700'>
+					<button
+						onClick={() => navigate('/home')}
+						className='p-2 bg-red-600 text-white rounded-lg hover:bg-red-700'
+					>
 						Add Movies
 					</button>
 				</div>

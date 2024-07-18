@@ -38,7 +38,7 @@ export default function Layout() {
 				</div>
 				<main className='flex-1 p-4 sm-ml-[calc(100vw/12*4)] lg:ml-[calc(100vw/12*3)] xl:ml-[calc(100vw/12*2)] transition-all duration-300 ease-in-out'>
 					<button
-						className='lg:hidden p-1 bg-red-600 text-white'
+						className='lg:hidden p-1 bg-red-600 text-white rounded'
 						onClick={() => setMenuOpen(!menuOpen)}
 					>
 						<List size={28} />

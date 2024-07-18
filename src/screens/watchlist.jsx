@@ -10,6 +10,7 @@ import { Check, FilmSlate, Trash } from '@phosphor-icons/react';
 import WatchListSearch from '../components/watchListSearch';
 import { useAddMovie } from '../hooks/useAddMovie';
 import { setWatchlist as updateDBWatchlist } from '../contexts/db';
+import { setUser } from '../contexts/db';
 
 export default function Watchlist() {
 	const location = useLocation();
@@ -64,6 +65,10 @@ export default function Watchlist() {
 
 	const updateWatchlist = async (property, value) => {
 		try {
+			const updatedUser = { ...currentUser };
+			const watchlistToUpdate = updatedUser.watchlists.find((watchlist) => watchlist.id === id)
+			watchlistToUpdate[property] = value
+			setUser(currentUser.email, updatedUser);
 			setWatchlist({
 				...watchlist,
 				[property]: value

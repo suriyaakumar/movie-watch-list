@@ -1,17 +1,16 @@
-import { useState, useEffect, useContext } from 'react';
-import GridItem from '../components/gridItem';
+import { useState, useEffect, useContext, Suspense, lazy } from 'react';
 import { UserContext } from '../contexts/userContext';
 import { toast } from 'react-toastify';
 import Search from '../components/search';
-import { CaretRight, CaretLeft } from '@phosphor-icons/react';
 import { useAddMovie } from '../hooks/useAddMovie';
-import WatchListSearch from '../components/watchListSearch';
+
+
+const MoviesList = lazy(() => import('../components/moviesList'));
 
 export default function Home() {
 	useEffect(() => {
 		document.title = 'Watchlists | Home';
 	}, []);
-	const [movies, setMovies] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [currentQuery, setCurrentQuery] = useState('');
 	const [totalResults, setTotalResults] = useState(0);
@@ -26,19 +25,15 @@ export default function Home() {
 			results = await results.json();
 
 			if (results.Search) {
-				const promises = results.Search.map(async (movie) => {
-					const result = await fetch(
-						`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_KEY}&t=${movie.Title}&plot=short`
-					);
-					return result.json();
-				});
-				const detailedResults = await Promise.all(promises);
-				setMovies(detailedResults);
-				setTotalResults(results.totalResults);
-				setCurrentPage(page);
+				return {
+					movies: results.Search,
+					totalResults: results.totalResults,
+				};	
 			}
+			
 		} catch (error) {
 			toast.error(error.message);
+			return { movies: [], totalResults: 0 };
 		}
 	};
 
@@ -64,34 +59,25 @@ export default function Home() {
 		<div className='mx-auto space-y-3'>
 			<h1 className='text-3xl font-black text-center md:text-left'>Search</h1>
 			<Search onSearch={handleSearch} />
-			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-				{movies.length > 0 &&
-					movies.map((movie) => (
-						<GridItem
-							key={movie.imdbID}
-							movie={movie}
-							Actions={() => <WatchListSearch currentUser={currentUser} movie={movie} onSelect={addMovie} />}
-						/>
-					))}
-			</div>
-			 {totalResults > 10 && (
-				<div className='flex justify-between'>
-					<button
-						className='bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-						onClick={handlePreviousPage}
-						disabled={currentPage === 1}
-					>
-						<CaretLeft />
-					</button>
-					<button
-						className='bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-						onClick={handleNextPage}
-						disabled={currentPage * 10 >= totalResults}
-					>
-						<CaretRight />
-					</button>
-				</div>
-			)} 
+			<Suspense
+				fallback={
+					<div className='h-screen bg-red-600 text-center flex items-center'>
+						Loading...
+					</div>
+				}
+			>
+				<MoviesList
+					currentPage={currentPage}
+					currentQuery={currentQuery}
+					setTotalResults={setTotalResults}
+					onSearch={search}
+					totalResults={totalResults}
+					currentUser={currentUser}
+					addMovie={addMovie}
+					handleNextPage={handleNextPage}
+					handlePreviousPage={handlePreviousPage}
+				/>
+			</Suspense>
 		</div>
 	);
 }

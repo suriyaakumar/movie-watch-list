@@ -34,9 +34,6 @@ function GridItem({ movie, Actions }) {
 						</span>
 					</p>
 				</div>
-				{movie?.Plot && movie.Plot !== 'N/A' && (
-					<div className='flex-1'>{movie?.Plot}</div>
-				)}
 			</div>
 		</div>
 	);

@@ -7,8 +7,8 @@ export default defineConfig({
 		envPrefix: 'VITE_',
 	},
 	define: {
-		'import.meta.env.VITE_API_KEY': JSON.stringify(
-			import.meta.env.VITE_API_KEY
+		'import.meta.env.VITE_OMDB_KEY': JSON.stringify(
+			import.meta.env.VITE_OMDB_KEY
 		),
 	},
 	plugins: [react()],

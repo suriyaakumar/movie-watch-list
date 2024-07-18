@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 
-const EditableInput = ({ initialValue, placeholder, className }) => {
+const EditableInput = ({ initialValue, placeholder, className, property, onChange }) => {
 	const [value, setValue] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     
@@ -12,6 +12,7 @@ const EditableInput = ({ initialValue, placeholder, className }) => {
 
 	const handleInputChange = (e) => {
 		setValue(e.target.value);
+		onChange(property, e.target.value);
 	};
 
 	const handleBlur = () => {
@@ -21,6 +22,7 @@ const EditableInput = ({ initialValue, placeholder, className }) => {
 	const handleKeyDown = (e) => {
 		if (e.key === 'Enter') {
 			setIsEditing(false);
+			onChange(property, e.target.value);
 		}
 	};
 
@@ -49,6 +51,8 @@ EditableInput.propTypes = {
 	initialValue: PropTypes.string,
 	placeholder: PropTypes.string,
 	className: PropTypes.string,
+	property: PropTypes.string,
+	onChange: PropTypes.func
 };
 
 export default EditableInput;

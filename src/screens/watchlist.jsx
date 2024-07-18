@@ -6,7 +6,7 @@ import { useRemoveMovie } from '../hooks/useRemoveMovie';
 import GridItem from '../components/gridItem';
 import EditableInput from '../components/editableInput';
 import { toast } from 'react-toastify';
-import { Check, FilmSlate, Trash} from '@phosphor-icons/react';
+import { Check, FilmSlate, Trash } from '@phosphor-icons/react';
 import WatchListSearch from '../components/watchListSearch';
 import { useAddMovie } from '../hooks/useAddMovie';
 import { setWatchlist as updateDBWatchlist } from '../contexts/db';
@@ -30,6 +30,7 @@ export default function Watchlist() {
 		};
 		fetchWatchlist();
 	}, [id]);
+
 
 	const deleteMovie = async (movie) => {
 		try {
@@ -56,7 +57,18 @@ export default function Watchlist() {
 				...watchlist,
 			});
 			updateDBWatchlist(id, { ...watchlist });
-			console.log(watchlist.movies[index].watched);
+		} catch (error) {
+			toast.error(error.message);
+		}
+	};
+
+	const updateWatchlist = async (property, value) => {
+		try {
+			setWatchlist({
+				...watchlist,
+				[property]: value
+			});
+			await updateDBWatchlist(id, { ...watchlist, [property]: value });
 		} catch (error) {
 			toast.error(error.message);
 		}
@@ -68,11 +80,16 @@ export default function Watchlist() {
 				<EditableInput
 					className={'font-black text-xl md:text-3xl text-center lg:text-left'}
 					initialValue={watchlist?.name}
+					placeholder={'Click to add/change a name'}
+					property={'name'}
+					onChange={updateWatchlist}
 				/>
 				<EditableInput
 					className={'font-bold text-sm md:text-base text-center lg:text-left'}
 					initialValue={watchlist?.description}
-					placeholder={'Add a description'}
+					placeholder={'Click to add/change a description'}
+					property={'description'}
+					onChange={updateWatchlist}
 				/>
 			</div>
 			{watchlist.movies && watchlist.movies.length > 0 ? (
@@ -85,10 +102,10 @@ export default function Watchlist() {
 								<div className='flex items-center space-x-1'>
 									<button
 										onClick={() => markMovie(movie)}
-										className={`inline-flex rounded p-1.5 ${movie.watched ? 'bg-green-400 hover:bg-green-600' : 'bg-red-400 hover:bg-red-600'}  text-white font-bold`}
+										className={`inline-flex rounded p-1.5 ${movie.watched ? 'bg-green-600' : 'bg-red-600'}  text-white font-bold`}
 									>
 										
-											<Check className='h-5 w-5' />
+											 <Check className='h-5 w-5' />
 										 {' '}
 									</button>
 									<WatchListSearch

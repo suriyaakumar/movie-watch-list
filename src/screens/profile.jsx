@@ -21,7 +21,6 @@ export default function Profile() {
 	const handleProfileSave = async (e) => {
 		try {
 			e.preventDefault();
-			if (profileName === '') throw new Error('Name cannot be empty');
 			const updatedUser = {
 				...currentUser,
 				name: profileName,
@@ -39,8 +38,8 @@ export default function Profile() {
 	};
 
 	return (
-		<div className='mx-auto mt-10 space-y-5'>
-			<h1 className='font-black text-3xl'>Your Profile</h1>
+		<div className='mx-auto space-y-5'>
+			<h1 className='font-black text-3xl text-center lg:text-left'>Your Profile</h1>
 			<form
 				onSubmit={handleProfileSave}
 				className='sm:px-24 md:px-36 lg:px-64 flex flex-col space-y-5'

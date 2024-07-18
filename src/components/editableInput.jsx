@@ -25,7 +25,7 @@ const EditableInput = ({ initialValue, placeholder, className }) => {
 	};
 
 	return (
-		<div onClick={() => setIsEditing(true)}>
+		<div className='w-fit p-1' onClick={() => setIsEditing(true)}>
 			{isEditing ? (
 				<input
 					type='text'
@@ -34,10 +34,10 @@ const EditableInput = ({ initialValue, placeholder, className }) => {
 					onBlur={handleBlur}
 					onKeyDown={handleKeyDown}
 					autoFocus
-					className={`${className} p-2 w-fit`}
+					className={`${className} p-1 w-fit`}
 				/>
 			) : (
-				<p className={`${className} cursor-pointer p-2 border-2 border-gray-600 border-dashed w-fit`}>
+				<p className={`${className} cursor-pointer p-1 border border-gray-600 border-dashed w-fit`}>
 					{value || placeholder}
 				</p>
 			)}

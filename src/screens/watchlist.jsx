@@ -16,7 +16,7 @@ export default function Watchlist() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { id } = location.state;
-	const { currentUser } = useContext(UserContext);
+	const { currentUser, updateUser } = useContext(UserContext);
 	const removeMovie = useRemoveMovie();
 	const addMovie = useAddMovie();
 	const [watchlist, setWatchlist] = useState({});
@@ -68,7 +68,8 @@ export default function Watchlist() {
 			const updatedUser = { ...currentUser };
 			const watchlistToUpdate = updatedUser.watchlists.find((watchlist) => watchlist.id === id)
 			watchlistToUpdate[property] = value
-			setUser(currentUser.email, updatedUser);
+			await setUser(currentUser.email, updatedUser);
+			updateUser(updatedUser);
 			setWatchlist({
 				...watchlist,
 				[property]: value

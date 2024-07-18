@@ -5,6 +5,9 @@ import WatchListItem from '../components/watchListItem';
 import { ListStar, Plus } from '@phosphor-icons/react';
 import { useCreateWatchlist } from '../hooks/useCreateWatchList';
 
+/**
+ * Renders the user's watchlists with options to create new watchlists and view existing ones.
+ */
 export default function Watchlists() {
 	useEffect(() => {
 		document.title = 'Watchlists | Watchlists';

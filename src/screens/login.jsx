@@ -13,6 +13,12 @@ export default function Login() {
 		document.title = 'Watchlists | Login';
 	}, []);
 
+	/**
+	 * Function to handle user login.
+	 *
+	 * @param {Event} e - The event object triggering the login.
+	 * @return {void} No explicit return value.
+	 */
 	const handleLogin = async (e) => {
 		try {
 			e.preventDefault();

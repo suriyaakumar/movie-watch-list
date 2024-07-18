@@ -4,6 +4,15 @@ import { useCreateWatchlist } from '../hooks/useCreateWatchList';
 import PropTypes from 'prop-types';
 import * as Popover from '@radix-ui/react-popover';
 
+
+/**
+ * Renders the watchlist search component.
+ *
+ * @param {Object} currentUser - The current user object.
+ * @param {Object} movie - The movie object.
+ * @param {Function} onSelect - The function to handle selection.
+ * @return {JSX.Element} The rendered watchlist search component.
+ */
 export default function WatchListSearch({ currentUser, movie, onSelect }) {
 	const createWatchlist = useCreateWatchlist();
 

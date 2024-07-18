@@ -7,6 +7,14 @@ import { useAddMovie } from '../hooks/useAddMovie';
 
 const MoviesList = lazy(() => import('../components/moviesList'));
 
+
+/**
+ * Asynchronous function to search for movies based on a query and page number.
+ *
+ * @param {string} query - The search query for movies.
+ * @param {number} [page=1] - The page number for pagination.
+ * @return {Object} An object with movies array and totalResults count.
+ */
 export default function Home() {
 	useEffect(() => {
 		document.title = 'Watchlists | Home';
@@ -17,6 +25,13 @@ export default function Home() {
 	const { currentUser } = useContext(UserContext);
 	const addMovie = useAddMovie();
 
+	/**
+	 * Asynchronously searches for movies based on a query and page number.
+	 *
+	 * @param {string} query - The search query for movies.
+	 * @param {number} [page=1] - The page number for pagination.
+	 * @return {Promise<Object>} An object with movies array and totalResults count.
+	 */
 	const search = async (query, page = 1) => {
 		try {
 			let results = await fetch(
@@ -28,27 +43,43 @@ export default function Home() {
 				return {
 					movies: results.Search,
 					totalResults: results.totalResults,
-				};	
+				};
 			}
-			
 		} catch (error) {
 			toast.error(error.message);
 			return { movies: [], totalResults: 0 };
 		}
 	};
 
+	/**
+	 * A function that handles the search by setting the current query, current page to 1, and performing a search operation.
+	 *
+	 * @param {type} query - The search query to be used in the search operation.
+	 * @return {type} No explicit return value.
+	 */
 	const handleSearch = (query) => {
 		setCurrentQuery(query);
 		setCurrentPage(1);
 		search(query, 1);
 	};
 
+	/**
+	 * Handles the next page of search results.
+	 *
+	 * @return {void}
+	 */
 	const handleNextPage = () => {
 		if (currentPage * 10 < totalResults) {
 			search(currentQuery, currentPage + 1);
 		}
 	};
 
+	/**
+	 * Handles the previous page of search results.
+	 *
+	 * @param {type} paramName - description of parameter
+	 * @return {type} description of return value
+	 */
 	const handlePreviousPage = () => {
 		if (currentPage > 1) {
 			search(currentQuery, currentPage - 1);

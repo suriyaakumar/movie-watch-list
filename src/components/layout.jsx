@@ -5,6 +5,11 @@ import { List, X } from '@phosphor-icons/react';
 import NavBar from './navbar/navbar';
 import { UserProvider } from '../contexts/userContext';
 
+/**
+ * Renders the layout of the application.
+ *
+ * @return {JSX.Element} The layout of the application.
+ */
 export default function Layout() {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const handlers = useSwipeable({

@@ -2,7 +2,23 @@ import { Command } from 'cmdk';
 import { Plus, ListHeart } from '@phosphor-icons/react';
 import PropTypes from 'prop-types';
 
+/**
+ * Renders the watchlists section of the navigation bar.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.currentUser - The current user object.
+ * @param {Function} props.createWatchlist - The function to create a new watchlist.
+ * @param {Function} props.navigate - The function to navigate to a specific route.
+ * @return {JSX.Element} The rendered watchlists section.
+ */
 const NavWatchLists = ({ currentUser, createWatchlist, navigate }) => {
+	
+	/**
+	 * Navigates to a specific watchlist based on the provided ID.
+	 *
+	 * @param {string} id - The ID of the watchlist.
+	 * @return {void} No return value.
+	 */
 	const handleNavigate = (id) => {
 		navigate(`/watchlist/${id}`, { state: { id } });
 	};

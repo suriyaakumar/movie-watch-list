@@ -4,6 +4,21 @@ import GridItem from '../components/gridItem';
 import WatchListSearch from '../components/watchListSearch';
 import PropTypes from 'prop-types';
 
+
+/**
+ * Renders a list of movies based on the current query and page.
+ *
+ * @param {number} currentPage - The current page number.
+ * @param {string} currentQuery - The current search query.
+ * @param {function} setTotalResults - Function to set the total number of results.
+ * @param {function} onSearch - Function to fetch movies based on query and page.
+ * @param {number} totalResults - The total number of search results.
+ * @param {object} currentUser - The current user object.
+ * @param {function} addMovie - Function to add a movie to the watchlist.
+ * @param {function} handleNextPage - Function to handle the next page of search results.
+ * @param {function} handlePreviousPage - Function to handle the previous page of search results.
+ * @return {JSX.Element} The rendered list of movies.
+ */
 export default function MoviesList({
 	currentPage,
 	currentQuery,

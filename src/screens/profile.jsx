@@ -4,6 +4,12 @@ import { toast } from 'react-toastify';
 import { UserContext } from '../contexts/userContext';
 import DatabaseContext from '../contexts/dbContext';
 
+/**
+ * A function that handles saving the user's profile details.
+ *
+ * @param {Event} e - The event object triggering the save action.
+ * @return {Promise<void>} Promise that resolves after saving the profile.
+ */
 export default function Profile() {
 	const { currentUser, updateUser } = useContext(UserContext);
 	const { setUser } = useContext(DatabaseContext);
@@ -11,13 +17,19 @@ export default function Profile() {
 	const [profileImage, setProfileImage] = useState('');
 
 	useEffect(() => {
-        document.title = 'Watchlists | Profile';
-        if (currentUser) {
-            setProfileName(currentUser.name);
-            setProfileImage(currentUser.image);
-        }
+		document.title = 'Watchlists | Profile';
+		if (currentUser) {
+			setProfileName(currentUser.name);
+			setProfileImage(currentUser.image);
+		}
 	}, [currentUser]);
 
+	/**
+	 * A function that handles saving the user's profile details.
+	 *
+	 * @param {Event} e - The event object triggering the save action.
+	 * @return {Promise<void>} Promise that resolves after saving the profile.
+	 */
 	const handleProfileSave = async (e) => {
 		try {
 			e.preventDefault();
@@ -39,7 +51,9 @@ export default function Profile() {
 
 	return (
 		<div className='mx-auto space-y-5'>
-			<h1 className='font-black text-3xl text-center lg:text-left'>Your Profile</h1>
+			<h1 className='font-black text-3xl text-center lg:text-left'>
+				Your Profile
+			</h1>
 			<form
 				onSubmit={handleProfileSave}
 				className='sm:px-24 md:px-36 lg:px-64 flex flex-col space-y-5'
@@ -61,8 +75,8 @@ export default function Profile() {
 					type='email'
 					placeholder='email'
 					className='focus:outline-none rounded p-2 bg-gray-200 border-2 border-gray-300'
-                    disabled
-                />
+					disabled
+				/>
 				<button className='text-white rounded p-2 bg-red-600 hover:bg-red-700'>
 					Save
 				</button>

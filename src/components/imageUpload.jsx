@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+
+/**
+ * Renders an image upload component.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.value - The initial image value.
+ * @param {Function} props.onImageUpload - The callback function to handle image upload.
+ * @return {JSX.Element} The rendered image upload component.
+ */
 export default function ImageFileUpload({ value, onImageUpload }) {
 	const [imagePreview, setImagePreview] = useState('');
 
@@ -10,6 +19,12 @@ export default function ImageFileUpload({ value, onImageUpload }) {
 		}
 	}, [value]);
 
+	/**
+	 * Handles the change event for file input.
+	 *
+	 * @param {Event} event - The event object for the file input change.
+	 * @return {void}
+	 */
 	const handleFileChange = (event) => {
 		const file = event.target.files[0];
 		if (file) {

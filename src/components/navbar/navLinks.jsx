@@ -2,6 +2,13 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { House, ListHeart, SignOut } from '@phosphor-icons/react';
 
+/**
+ * Renders navigation links based on the current user details.
+ *
+ * @param {string} currentUserName - The name of the current user.
+ * @param {string} currentUserImage - The image of the current user.
+ * @param {function} onLogout - The function to handle logout.
+ */
 const NavLinks = ({ currentUserName, currentUserImage, onLogout }) => (
 	<div className='w-full space-y-0.5'>
 		<Link

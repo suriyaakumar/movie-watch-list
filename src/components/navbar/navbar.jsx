@@ -5,12 +5,22 @@ import { useNavigate } from 'react-router-dom';
 import { useCreateWatchlist } from '../../hooks/useCreateWatchList';
 import NavWatchLists from './navLists';
 
+/**
+ * Renders the navigation bar component with user information and watchlist functionality.
+ *
+ * @returns {JSX.Element} The JSX element representing the navigation bar.
+ */
 export default function NavBar() {
 	const { currentUser, updateUser } = useContext(UserContext);
 	const createWatchlist = useCreateWatchlist();
 	const navigate = useNavigate();
-	
 
+	/**
+	 * Handles the logout functionality by removing the user from local storage,
+	 * updating the user context to null, and navigating to the root page.
+	 *
+	 * @return {void} This function does not return anything.
+	 */
 	const handleLogout = () => {
 		localStorage.removeItem('user');
 		updateUser(null);
@@ -19,7 +29,11 @@ export default function NavBar() {
 
 	return (
 		<nav className='flex flex-col flex-1 overflow-y-auto pb-4 space-y-3'>
-			<NavLinks currentUserName={currentUser.name || currentUser.email} currentUserImage={currentUser.image} onLogout={handleLogout} />
+			<NavLinks
+				currentUserName={currentUser.name || currentUser.email}
+				currentUserImage={currentUser.image}
+				onLogout={handleLogout}
+			/>
 			<hr className='border-t-1 w-11/12 mx-auto border-gray-400' />
 			<NavWatchLists
 				currentUser={currentUser}

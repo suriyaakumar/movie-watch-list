@@ -12,6 +12,11 @@ import { useAddMovie } from '../hooks/useAddMovie';
 import { setWatchlist as updateDBWatchlist } from '../contexts/db';
 import { setUser } from '../contexts/db';
 
+/**
+ * Renders the Watchlist component with the user's watchlist information and functionality to interact with movies.
+ *
+ * @return {JSX.Element} The JSX element representing the Watchlist component.
+ */
 export default function Watchlist() {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -32,7 +37,12 @@ export default function Watchlist() {
 		fetchWatchlist();
 	}, [id]);
 
-
+	/**
+	 * Asynchronously deletes a movie from the watchlist.
+	 *
+	 * @param {Object} movie - The movie object to be deleted.
+	 * @return {Promise<void>} A promise that resolves when the movie is successfully deleted.
+	 */
 	const deleteMovie = async (movie) => {
 		try {
 			const newMovies = watchlist.movies.filter(
@@ -48,6 +58,12 @@ export default function Watchlist() {
 		}
 	};
 
+	/**
+	 * Asynchronously marks a movie as watched or unwatched in the watchlist.
+	 *
+	 * @param {Object} movie - The movie object to be marked.
+	 * @return {Promise<void>} A promise that resolves after updating the watchlist.
+	 */
 	const markMovie = async (movie) => {
 		try {
 			const index = watchlist.movies.findIndex(
@@ -63,16 +79,25 @@ export default function Watchlist() {
 		}
 	};
 
+	/**
+	 * Asynchronously updates a property of the watchlist and triggers corresponding user and database updates.
+	 *
+	 * @param {string} property - The property to update in the watchlist.
+	 * @param {any} value - The new value to set for the property.
+	 * @return {Promise<void>} A promise that resolves after updating the watchlist and related data.
+	 */
 	const updateWatchlist = async (property, value) => {
 		try {
 			const updatedUser = { ...currentUser };
-			const watchlistToUpdate = updatedUser.watchlists.find((watchlist) => watchlist.id === id)
-			watchlistToUpdate[property] = value
+			const watchlistToUpdate = updatedUser.watchlists.find(
+				(watchlist) => watchlist.id === id
+			);
+			watchlistToUpdate[property] = value;
 			await setUser(currentUser.email, updatedUser);
 			updateUser(updatedUser);
 			setWatchlist({
 				...watchlist,
-				[property]: value
+				[property]: value,
 			});
 			await updateDBWatchlist(id, { ...watchlist, [property]: value });
 		} catch (error) {
@@ -110,9 +135,7 @@ export default function Watchlist() {
 										onClick={() => markMovie(movie)}
 										className={`inline-flex rounded p-1.5 ${movie.watched ? 'bg-green-600' : 'bg-red-600'}  text-white font-bold`}
 									>
-										
-											 <Check className='h-5 w-5' />
-										 {' '}
+										<Check className='h-5 w-5' />{' '}
 									</button>
 									<WatchListSearch
 										currentUser={currentUser}

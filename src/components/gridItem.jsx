@@ -1,6 +1,14 @@
 import PropTypes from 'prop-types';
 import { CalendarBlank, Star, FilmSlate } from '@phosphor-icons/react';
 
+/**
+ * Renders a single movie item in a grid layout.
+ *
+ * @param {Object} props - The props object containing the movie and Actions.
+ * @param {Object} props.movie - The movie object to be rendered.
+ * @param {Function} props.Actions - The optional actions component to be rendered.
+ * @return {JSX.Element} The JSX element representing the movie item.
+ */
 function GridItem({ movie, Actions }) {
 	
 	return (

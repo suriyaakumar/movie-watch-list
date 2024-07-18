@@ -1,6 +1,13 @@
 import { useContext, useCallback } from 'react';
 import DatabaseContext from '../contexts/dbContext';
 
+/**
+ * Returns a function that removes a movie from a user's watchlist.
+ *
+ * @param {string} id - The ID of the user's watchlist.
+ * @param {object} movie - The movie object to be removed.
+ * @return {Promise} A promise representing the removal of the movie from the watchlist.
+ */
 export const useRemoveMovie = () => {
 	const { getWatchlist, setWatchlist } = useContext(DatabaseContext);
 
